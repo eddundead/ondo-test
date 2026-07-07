@@ -139,7 +139,7 @@ A "request" = the user submits/updates the wallet list. Trace, end to end:
 
 1. **Input.** `WalletManager` writes `WalletInput[]` (`{address, label?, chainIds}`) into the Zustand store (deduped, validated). Manual entry now; wallet-connect appends to the same list later.
 2. **Fan-out.** `usePortfolio` spawns **one `useWalletBalances` query per wallet** (React Query). Isolation is structural — each query has independent loading/error/retry.
-3. **Fetch.** Each query calls the injected `PortfolioSource.fetchWalletBalances({address, chainIds})`. Mock returns fixtures (with simulated latency + a deliberately failing wallet); live routes through the server proxy. Returns `{ raw: RawBalance[], status: FetchStatus }`.
+3. **Fetch.** Each query calls the injected `PortfolioSource.fetchWalletBalances({address, chainIds})`. Mock returns fixtures (with simulated latency + a deliberately failing wallet that **throws**); live routes through the server proxy. Returns `RawBalance[]`; the per-wallet `FetchStatus` is derived from React Query state at the hook layer (step 6).
 4. **Normalize** (`domain/normalize.ts`). Each `RawBalance` → `Position`: resolve `canonicalId` via the ladder, compute `balance` from `bigint` raw + decimals, attach price/value, carry `isSpam`.
 5. **Aggregate** (`domain/aggregate.ts`). Collapse same-`canonicalId` positions across chains/wallets into `AggregatedAsset[]`; sum totals; set the **partial** flag if any wallet's `FetchStatus` is `error`.
 6. **Reduce status.** `usePortfolio` reduces the per-wallet `FetchStatus[]` into one aggregate UX state: loading / empty / loaded / partial-failure / total-failure.

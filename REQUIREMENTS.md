@@ -108,8 +108,9 @@ Build against **mock data first**, then swap in the real provider and wallet-con
 
 ```ts
 interface PortfolioSource {
-  fetchWalletBalances(input: { address: string; chainIds: number[] }):
-    Promise<{ raw: RawBalance[]; status: FetchStatus }>;   // per-wallet → failure isolation in both modes
+  // per-wallet → failure isolation in both modes; throws on error so React Query
+  // marks the query isError (FetchStatus is derived at the hook layer from query state)
+  fetchWalletBalances(input: { address: string; chainIds: number[] }): Promise<RawBalance[]>;
 }
 // MockPortfolioSource  — fixture JSON, simulates latency + per-wallet failure
 // ZerionPortfolioSource — calls server proxy; identical return shape

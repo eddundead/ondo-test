@@ -38,7 +38,7 @@ provider and wallet-connect drop in later behind two seams with no core refactor
 | **RawBalance** | Provider-shaped pre-normalization record; identical between mock and Zerion adapters. |
 | **WalletInput** | `{ address, label?, chainIds }` — how a wallet enters the app, decoupled from *how it got there*. |
 | **GroupKey** | `'token' \| 'network' \| 'wallet'` — the accessor selector for `groupBy`. |
-| **PortfolioSource** | Seam 1 interface: `fetchWalletBalances({address, chainIds}) → {raw, status}`. Impls: `MockPortfolioSource`, later `ZerionPortfolioSource`. |
+| **PortfolioSource** | Seam 1 interface: `fetchWalletBalances({address, chainIds}) → RawBalance[]` (throws on error; per-wallet `FetchStatus` is derived at the hook layer from React Query state). Impls: `MockPortfolioSource`, later `ZerionPortfolioSource`. |
 | **Partial total** | A portfolio total flagged incomplete because ≥1 wallet errored. Must be annotated, never silently understated. |
 | **Low-confidence** | Flag on an identity resolved only by ladder rung ④ (symbol+decimals). |
 

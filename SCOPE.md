@@ -17,7 +17,7 @@ Status: ⬜ Undone · 🟡 In progress · ✅ Done. Update as tasks complete.
 | T2 — Domain types | 0 | Low | ✅ Done |
 | T3 — Canonical identity | 1A | High | ✅ Done |
 | T4 — normalize→aggregate→group→filter | 1A | Medium | ✅ Done |
-| T5 — PortfolioSource + Mock + fixtures | 1B | Medium | ⬜ Undone |
+| T5 — PortfolioSource + Mock + fixtures | 1B | Medium | ✅ Done |
 | T6 — React Query hooks + status reduction | 2 | Medium | ⬜ Undone |
 | T7 — Zustand UI store | 1C | Low | ⬜ Undone |
 | T8 — Wallet manager UI | 3 | Medium | ⬜ Undone |
