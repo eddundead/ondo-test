@@ -13,7 +13,7 @@ Status: ⬜ Undone · 🟡 In progress · ✅ Done. Update as tasks complete.
 
 | Task / Stage | Wave | Complexity | Status |
 |--------------|------|-----------|--------|
-| T1 — Scaffold & tooling | 0 | Low | ⬜ Undone |
+| T1 — Scaffold & tooling | 0 | Low | ✅ Done |
 | T2 — Domain types | 0 | Low | ⬜ Undone |
 | T3 — Canonical identity | 1A | High | ⬜ Undone |
 | T4 — normalize→aggregate→group→filter | 1A | Medium | ⬜ Undone |

@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+*.local
+
+# Env: keep the example, never the real keys
+.env
+.env.*
+!.env.example
+
+.DS_Store
+*.log
