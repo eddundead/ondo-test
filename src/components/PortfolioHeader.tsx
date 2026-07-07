@@ -30,6 +30,8 @@ export function PortfolioHeader({
   const setSearch = useUiStore((s) => s.setSearch)
   const showSpam = useUiStore((s) => s.showSpam)
   const setShowSpam = useUiStore((s) => s.setShowSpam)
+  const watchlistOnly = useUiStore((s) => s.watchlistOnly)
+  const setWatchlistOnly = useUiStore((s) => s.setWatchlistOnly)
 
   return (
     <div className="mb-4 space-y-4">
@@ -84,6 +86,14 @@ export function PortfolioHeader({
             aria-label="Search"
             className="w-64 rounded-md border border-slate-300 px-3 py-1.5 text-sm outline-none focus:border-slate-500"
           />
+          <label className="flex select-none items-center gap-1.5 text-sm text-slate-600">
+            <input
+              type="checkbox"
+              checked={watchlistOnly}
+              onChange={(e) => setWatchlistOnly(e.target.checked)}
+            />
+            ★ Watchlist
+          </label>
           <label className="flex select-none items-center gap-1.5 text-sm text-slate-600">
             <input
               type="checkbox"

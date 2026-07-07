@@ -39,6 +39,8 @@ export function usePortfolio(): PortfolioData {
   const groupKey = useUiStore((s) => s.groupKey)
   const search = useUiStore((s) => s.search)
   const showSpam = useUiStore((s) => s.showSpam)
+  const watchlist = useUiStore((s) => s.watchlist)
+  const watchlistOnly = useUiStore((s) => s.watchlistOnly)
 
   // Fan-out: one independent query per wallet (results align with `wallets` by index).
   const results = useQueries({
@@ -66,10 +68,12 @@ export function usePortfolio(): PortfolioData {
   // Derive positions → filtered → aggregated → grouped. Recomputes only when a query
   // updates or a view control changes (signature keeps it off the render hot path).
   const signature = results.map((r) => `${r.status}:${r.dataUpdatedAt}:${r.errorUpdatedAt}`).join('|')
+  const watchKey = watchlist.join('|')
   const derived = useMemo(() => {
     const raw = results.flatMap((r) => r.data ?? [])
     let positions = normalize(raw)
     if (!showSpam) positions = positions.filter((p) => !p.token.isSpam)
+    if (watchlistOnly) positions = positions.filter((p) => watchlist.includes(p.token.canonicalId))
     positions = filterPositions(positions, search)
     const { assets, totalValueUsd } = aggregate(positions)
     return {
@@ -78,8 +82,8 @@ export function usePortfolio(): PortfolioData {
       totalValueUsd,
       view: buildGroupedView(positions, groupKey),
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- `signature` captures `results`
-  }, [signature, showSpam, search, groupKey])
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `signature`/`watchKey` capture results/watchlist
+  }, [signature, showSpam, search, groupKey, watchlistOnly, watchKey])
 
   let uiState: PortfolioUiState
   if (walletCount === 0) uiState = 'idle'

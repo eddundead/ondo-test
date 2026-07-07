@@ -13,7 +13,8 @@ function makeWrapper() {
 }
 
 beforeEach(() => {
-  useUiStore.setState({ wallets: [], groupKey: 'token', search: '', showSpam: false })
+  localStorage.clear()
+  useUiStore.setState({ wallets: [], groupKey: 'token', search: '', showSpam: false, watchlist: [], watchlistOnly: false })
 })
 
 describe('usePortfolio', () => {

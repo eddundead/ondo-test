@@ -16,7 +16,10 @@ function renderApp() {
   )
 }
 
-beforeEach(() => useUiStore.setState({ wallets: [], groupKey: 'token', search: '', showSpam: false }))
+beforeEach(() => {
+  localStorage.clear()
+  useUiStore.setState({ wallets: [], groupKey: 'token', search: '', showSpam: false, watchlist: [], watchlistOnly: false })
+})
 
 describe('App end-to-end', () => {
   it('starts idle, then loads the sample into a partial-failure portfolio', async () => {
@@ -68,6 +71,22 @@ describe('App end-to-end', () => {
 
     await user.click(screen.getByLabelText('Show spam'))
     expect(await screen.findByText('CLAIM-AIRDROP.COM')).toBeInTheDocument()
+  })
+
+  it('stars an asset and filters to the watchlist', async () => {
+    const user = userEvent.setup()
+    useUiStore.setState({ wallets: [{ address: '0xA11ce00000000000000000000000000000000001', chainIds: [1, 8453, 42161] }] })
+    renderApp()
+    await screen.findByText('USDC')
+    // Before watching, filtering to the watchlist yields nothing.
+    expect(screen.getByText('WETH')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: /watch WETH/i }))
+    await user.click(screen.getByLabelText(/watchlist/i))
+
+    // Only the starred asset survives the filter.
+    expect(await screen.findByText('WETH')).toBeInTheDocument()
+    expect(screen.queryByText('USDC')).not.toBeInTheDocument()
   })
 
   it('shows the empty state for a funded-nothing wallet', async () => {

@@ -73,6 +73,8 @@ function AssetRow({
   walletLabel: (address: string) => string
 }) {
   const [open, setOpen] = useState(false)
+  const watched = useUiStore((s) => s.watchlist.includes(asset.canonicalId))
+  const toggleWatch = useUiStore((s) => s.toggleWatch)
   const chainIds = [...new Set(asset.positions.map((p) => p.chainId))]
 
   return (
@@ -84,6 +86,17 @@ function AssetRow({
       >
         <td className="px-4 py-3">
           <div className="flex items-center gap-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation() // don't toggle the row
+                toggleWatch(asset.canonicalId)
+              }}
+              aria-pressed={watched}
+              aria-label={watched ? `Unwatch ${asset.token.symbol}` : `Watch ${asset.token.symbol}`}
+              className={watched ? 'text-amber-400' : 'text-slate-300 hover:text-amber-400'}
+            >
+              {watched ? '★' : '☆'}
+            </button>
             <span className="w-3 text-slate-400">{open ? '▾' : '▸'}</span>
             <div>
               <div className="flex items-center gap-1.5 font-medium text-slate-800">

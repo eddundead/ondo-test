@@ -25,7 +25,7 @@ Status: ⬜ Undone · 🟡 In progress · ✅ Done. Update as tasks complete.
 | T10 — Search + all UX states | 1C/3 | Medium | ✅ Done |
 | T11 — Run & verify Phase 1 E2E | 4 | Low–Med | ✅ Done |
 | **Phase 1 — Core (F1–F8)** | — | — | ✅ Done |
-| Phase 2 — Watchlist | — | Low–Med | ⬜ Undone |
+| Phase 2 — Watchlist | — | Low–Med | ✅ Done |
 | Phase 3 — Value over time | — | Medium | ⬜ Undone |
 | Phase 4 — Tx history + pagination | — | Medium | ⬜ Undone |
 | Phase 5 — Live integration | — | High | ⬜ Undone |
@@ -135,7 +135,7 @@ src/
 
 | Phase | Feature | Modules / key files | Complexity | Status |
 |-------|---------|---------------------|------------|--------|
-| **2** | Watchlist (F12) | `store/uiStore.ts` (persisted `Set<canonicalId>`), star toggle in `GroupedPortfolio.tsx`, watchlist filter | **Low–Medium** | ⬜ Undone |
+| **2** | Watchlist (F12) | `store/uiStore.ts` (persisted `Set<canonicalId>`), star toggle in `GroupedPortfolio.tsx`, watchlist filter | **Low–Medium** | ✅ Done |
 | **3** | Value over time (F10) | `data/mock/snapshots.ts`, `components/ValueChart.tsx` (Recharts), header sparkline | **Medium** | ⬜ Undone |
 | **4** | Tx history + pagination (F9, F11) | `hooks/useTransactions.ts`, `components/TxHistory.tsx`, pagination over groups | **Medium** | ⬜ Undone |
 | **5** | Live integration (N1) | `data/zerion/ZerionPortfolioSource.ts`, server proxy (`/api/portfolio`), env flag; wallet-connect via wagmi injected then RainbowKit | **High** | ⬜ Undone |

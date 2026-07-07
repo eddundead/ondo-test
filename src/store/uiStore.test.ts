@@ -2,7 +2,10 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { useUiStore } from './uiStore'
 import { SAMPLE_WALLETS } from '@/data/mock/fixtures'
 
-const reset = () => useUiStore.setState({ wallets: [], groupKey: 'token', search: '', showSpam: false })
+const reset = () => {
+  localStorage.clear()
+  useUiStore.setState({ wallets: [], groupKey: 'token', search: '', showSpam: false, watchlist: [], watchlistOnly: false })
+}
 
 describe('uiStore', () => {
   beforeEach(reset)
@@ -34,5 +37,15 @@ describe('uiStore', () => {
     expect(next.groupKey).toBe('network')
     expect(next.search).toBe('usdc')
     expect(next.showSpam).toBe(true)
+  })
+
+  it('toggles the watchlist as a set and persists it', () => {
+    const { toggleWatch } = useUiStore.getState()
+    toggleWatch('usd-coin')
+    toggleWatch('weth')
+    toggleWatch('usd-coin') // remove
+    expect(useUiStore.getState().watchlist).toEqual(['weth'])
+    // persisted to localStorage under the store name
+    expect(localStorage.getItem('portfolio-ui')).toContain('weth')
   })
 })
