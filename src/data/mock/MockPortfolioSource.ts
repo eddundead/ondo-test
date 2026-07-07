@@ -17,7 +17,7 @@ export class MockPortfolioSource implements PortfolioSource {
   constructor(private readonly options: MockOptions = {}) {}
 
   async fetchWalletBalances({ address, chainIds }: FetchWalletInput): Promise<RawBalance[]> {
-    await delay(this.options.latencyMs ?? 300 + Math.random() * 500)
+    await delay(this.options.latencyMs ?? 150 + Math.random() * 250)
 
     const key = address.toLowerCase()
     if (key === FAILING_WALLET.toLowerCase()) {
