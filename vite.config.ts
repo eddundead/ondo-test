@@ -12,7 +12,8 @@ export default defineConfig({
   },
   test: {
     globals: true,
-    // Pure domain/ logic is node-testable; component tests switch to jsdom when added.
-    environment: 'node',
+    // jsdom covers both pure domain/ tests and component tests (RTL).
+    environment: 'jsdom',
+    setupFiles: ['./src/test/setup.ts'],
   },
 })
