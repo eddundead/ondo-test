@@ -8,9 +8,11 @@ A read-only, desktop-first **multi-chain portfolio explorer**. It takes a set of
 **Mock-first:** the app runs today against a fixture dataset. The real provider and
 wallet-connect drop in later behind two seams with no core refactor.
 
-> **Status:** Phase 1 (Core) in progress. Scaffold, domain types, and canonical-identity
-> resolution are in place; normalize/aggregate pipeline, data layer, hooks, store, and UI are
-> next. See [`SCOPE.md`](./SCOPE.md) for the task tracker.
+> **Status:** ✅ **Phase 1 (Core) complete.** Full mock-data pipeline, per-wallet React Query
+> with partial-failure isolation, token/network/wallet grouping, search, spam toggle, and all
+> UX states — 54 tests green (incl. end-to-end App tests) + production build verified. Phases 2–5
+> (watchlist, value-over-time, tx history + pagination, live Zerion + wallet-connect) are next.
+> See [`SCOPE.md`](./SCOPE.md) for the task tracker.
 
 ## Documentation map
 
@@ -58,16 +60,20 @@ portfolio-explorer/
 │  │  ├─ identity.ts          resolveCanonicalId() — the canonical-id fallback ladder
 │  │  ├─ curatedMap.ts        small hand-maintained cross-chain map for majors
 │  │  ├─ identity.test.ts     co-located unit tests
-│  │  ├─ normalize.ts         RawBalance[] → Position[] (bigint math, price, spam)      ⟵ upcoming
-│  │  ├─ aggregate.ts         Position[] → AggregatedAsset[] + totals (dedupe/sum)      ⟵ upcoming
-│  │  ├─ groupBy.ts           pure groupBy(positions, key)                              ⟵ upcoming
-│  │  └─ filter.ts            search predicate over Position                            ⟵ upcoming
-│  ├─ data/                 Seam 1 — fetch raw balances per wallet                      ⟵ upcoming
+│  │  ├─ normalize.ts         RawBalance[] → Position[] (bigint math, price, spam)
+│  │  ├─ aggregate.ts         Position[] → AggregatedAsset[] + totals (dedupe/sum)
+│  │  ├─ groupBy.ts           pure groupBy(positions, key)
+│  │  ├─ groupedView.ts       groupBy ∘ aggregate — the per-group asset rows the UI renders
+│  │  ├─ filter.ts            search predicate over Position
+│  │  └─ chains.ts            chain names / badges for display
+│  ├─ data/                 Seam 1 — fetch raw balances per wallet
 │  │  ├─ PortfolioSource.ts   the interface both mock and Zerion satisfy
+│  │  ├─ source.ts            factory selecting impl from VITE_DATA_SOURCE
 │  │  └─ mock/                MockPortfolioSource + hand-authored edge-case fixtures
-│  ├─ hooks/                React Query fan-out + portfolio derivation                  ⟵ upcoming
-│  ├─ store/                Zustand UI store (groupKey, search, wallets, watchlist)     ⟵ upcoming
-│  ├─ components/           WalletManager, PortfolioHeader, GroupedPortfolio, states/   ⟵ upcoming
+│  ├─ hooks/                React Query fan-out (useWalletBalances) + derivation (usePortfolio)
+│  ├─ store/                Zustand UI store (groupKey, search, wallets, showSpam)
+│  ├─ lib/                  cn() + display formatters
+│  ├─ components/           WalletManager, PortfolioHeader, GroupedPortfolio, states/
 │  ├─ test/setup.ts         Vitest + Testing Library setup
 │  ├─ App.tsx  main.tsx  index.css
 ├─ .claude/skills/          custom Claude Code workflow skills (see below)
@@ -76,7 +82,8 @@ portfolio-explorer/
 └─ REQUIREMENTS.md  ARCHITECTURE.md  SCOPE.md  CLAUDE.md
 ```
 
-Items marked ⟵ upcoming are the [`SCOPE.md`](./SCOPE.md) target layout, not yet built.
+Load the app and click **Load sample portfolio** to explore two funded wallets, an
+always-failing wallet (partial-failure banner), and an empty wallet.
 
 ### Layer boundaries
 
@@ -140,7 +147,7 @@ Full rationale in [`CLAUDE.md`](./CLAUDE.md).
 | **FetchStatus** | Per-wallet result (`success` \| `error` \| `loading`) driving partial-failure UX. |
 | **WalletInput** | `{ address, label?, chainIds }` — how a wallet enters the app, decoupled from how it got there. |
 | **GroupKey** | `'token' \| 'network' \| 'wallet'` — the accessor selector for `groupBy`. |
-| **PortfolioSource** | Seam 1 interface: `fetchWalletBalances({address, chainIds}) → {raw, status}`. Impls: mock now, Zerion later. |
+| **PortfolioSource** | Seam 1 interface: `fetchWalletBalances({address, chainIds}) → RawBalance[]` (throws on error; `FetchStatus` derived at the hook layer). Impls: mock now, Zerion later. |
 | **Partial total** | A total flagged incomplete because ≥1 wallet errored — annotated, never silently understated. |
 
 ## Environment

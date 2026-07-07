@@ -23,8 +23,8 @@ Status: ⬜ Undone · 🟡 In progress · ✅ Done. Update as tasks complete.
 | T8 — Wallet manager UI | 3 | Medium | ✅ Done |
 | T9 — Grouped portfolio view + header | 3 | Medium | ✅ Done |
 | T10 — Search + all UX states | 1C/3 | Medium | ✅ Done |
-| T11 — Run & verify Phase 1 E2E | 4 | Low–Med | ⬜ Undone |
-| **Phase 1 — Core (F1–F8)** | — | — | ⬜ Undone |
+| T11 — Run & verify Phase 1 E2E | 4 | Low–Med | ✅ Done |
+| **Phase 1 — Core (F1–F8)** | — | — | ✅ Done |
 | Phase 2 — Watchlist | — | Low–Med | ⬜ Undone |
 | Phase 3 — Value over time | — | Medium | ⬜ Undone |
 | Phase 4 — Tx history + pagination | — | Medium | ⬜ Undone |
