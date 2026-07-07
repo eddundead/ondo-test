@@ -20,9 +20,9 @@ Status: ⬜ Undone · 🟡 In progress · ✅ Done. Update as tasks complete.
 | T5 — PortfolioSource + Mock + fixtures | 1B | Medium | ✅ Done |
 | T6 — React Query hooks + status reduction | 2 | Medium | ✅ Done |
 | T7 — Zustand UI store | 1C | Low | ✅ Done |
-| T8 — Wallet manager UI | 3 | Medium | ⬜ Undone |
-| T9 — Grouped portfolio view + header | 3 | Medium | ⬜ Undone |
-| T10 — Search + all UX states | 1C/3 | Medium | ⬜ Undone |
+| T8 — Wallet manager UI | 3 | Medium | ✅ Done |
+| T9 — Grouped portfolio view + header | 3 | Medium | ✅ Done |
+| T10 — Search + all UX states | 1C/3 | Medium | ✅ Done |
 | T11 — Run & verify Phase 1 E2E | 4 | Low–Med | ⬜ Undone |
 | **Phase 1 — Core (F1–F8)** | — | — | ⬜ Undone |
 | Phase 2 — Watchlist | — | Low–Med | ⬜ Undone |
